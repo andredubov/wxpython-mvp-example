@@ -44,13 +44,11 @@ class CounterView(wx.Frame):
         self.btn_dec.Bind(wx.EVT_BUTTON, self.on_decrement_click)
         self.btn_reset.Bind(wx.EVT_BUTTON, self.on_reset_click)
         self.btn_show_log.Bind(wx.EVT_BUTTON, self.on_show_log_click)
-        
-        self.Centre()
 
     def set_window_icon(self):
         """Находит и устанавливает иконку приложения"""
         try:
-            # Вычисляем путь к app/assets/icons/app_icon.png
+            # Вычисляем путь к app/assets/icons/app-icon.png
             current_dir = os.path.dirname(os.path.abspath(__file__))
             project_root = os.path.dirname(current_dir) # папка app
             icon_path = os.path.join(project_root, 'assets', 'icons', 'app-icon.png')
