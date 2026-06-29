@@ -1,9 +1,11 @@
 import wx
 import os
+import logging
 
 class CounterView(wx.Frame):
     def __init__(self, parent, title):
         super().__init__(parent, title=title)
+        self.logger = logging.getLogger(__name__)
         # Ссылка на презентер (будет установлена извне)
         self.presenter = None
         self.set_window_icon()
@@ -51,7 +53,7 @@ class CounterView(wx.Frame):
             # Вычисляем путь к app/assets/icons/app_icon.png
             current_dir = os.path.dirname(os.path.abspath(__file__))
             project_root = os.path.dirname(current_dir) # папка app
-            icon_path = os.path.join(project_root, 'assets', 'icons', 'app_icon.png')
+            icon_path = os.path.join(project_root, 'assets', 'icons', 'app-icon.png')
             
             if os.path.exists(icon_path):
                 # Создаем wx.Icon из PNG файла
@@ -59,7 +61,7 @@ class CounterView(wx.Frame):
                 self.SetIcon(icon)
         except Exception as e:
             # Если иконка не загрузилась, приложение продолжит работу со стандартной иконкой ОС
-            print(f"Не удалось загрузить иконку: {e}")
+            self.logger.error(f"Не удалось загрузить иконку: {e}")
 
     def set_presenter(self, presenter):
         self.presenter = presenter

@@ -1,5 +1,6 @@
 import json
 import os
+import logging
 
 class CounterModel:
     """
@@ -8,6 +9,7 @@ class CounterModel:
     и выполнение математических операций над ними.
     """
     def __init__(self):
+        self.logger = logging.getLogger(__name__)
         self._count = 0
         self._listeners = []  # Список колбэков для уведомления
 
@@ -73,4 +75,5 @@ class CounterModel:
             with open(self._config_path, 'w', encoding='utf-8') as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
         except Exception as e:
-            print(f"Ошибка при сохранении файла: {e}")
+            self.logger.error(f"Ошибка при сохранении файла: {e}")
+            

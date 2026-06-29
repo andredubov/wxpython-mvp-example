@@ -2,6 +2,7 @@ import wx
 
 from app.view import CounterView, LogView
 from app.presenter import CounterPresenter, LogPresenter
+from app.utils import hide_splash_screen
 
 class AppRouter:
     """
@@ -28,6 +29,9 @@ class AppRouter:
             self.main_view.Bind(wx.EVT_CLOSE, self._on_main_window_close_request)
 
         self.main_view.Show()
+    
+    def hide_splash_screen(self):
+        hide_splash_screen()  
 
     def show_log_window(self):
         """Открывает окно логов (или выводит на передний план, если открыто)"""
