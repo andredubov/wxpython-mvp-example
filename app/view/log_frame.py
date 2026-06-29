@@ -11,7 +11,7 @@ class LogView(wx.Frame):
         try:
             current_dir = os.path.dirname(os.path.abspath(__file__))
             project_root = os.path.dirname(current_dir)
-            icon_path = os.path.join(project_root, 'assets', 'icons', 'app_icon.png')
+            icon_path = os.path.join(project_root, 'assets', 'icons', 'app-icon.png')
             
             if os.path.exists(icon_path):
                 icon = wx.Icon(icon_path, wx.BITMAP_TYPE_PNG)

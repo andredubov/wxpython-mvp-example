@@ -34,14 +34,14 @@ class AppRouter:
         if not self.log_view:
             self.log_view = LogView(self.main_view, title="История изменений (Лог)")
             self.log_presenter = LogPresenter(self.model, self.log_view)
-            
+
             # Позиционируем рядом с главным окном
             if self.main_view:
                 main_view_posistion = self.main_view.GetPosition()
                 main_view_size = self.main_view.GetSize()
                 new_position_x = main_view_posistion.x + main_view_size.width
                 self.log_view.SetPosition((new_position_x, main_view_posistion.y))
-                
+
             # При закрытии окна логов зануляем ссылку, чтобы его можно было открыть снова
             self.log_view.Bind(wx.EVT_CLOSE, self._on_log_window_close)
             self.log_view.Show()
@@ -79,6 +79,6 @@ class AppRouter:
         # Делегируем логику презентеру, у которого есть доступ к диалогу подтверждения
         if self.main_presenter:
             self.main_presenter.handle_exit_request()
-            
+
         # Внимание: мы НЕ вызываем event.Skip(), поэтому окно не закроется само по себе,
         # пока Роутер не вызовет метод close_all()

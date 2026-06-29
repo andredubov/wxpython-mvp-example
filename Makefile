@@ -1,8 +1,5 @@
 
-deps-install:
-	@py -m pip install -r requirements.txt
-
-run: deps-install
+run:
 	@py run.py
 
 test:
