@@ -10,7 +10,7 @@ class CounterPresenter:
         self.model.subscribe(self.on_model_changed)
         
         # Первичное отображение
-        self.view.update_display(self.model.get_count())
+        self.on_model_changed(new_value=self.model.get_count(), action=None)
 
     def handle_increment(self):
         """Вызывается при нажатии кнопки '+' в интерфейсе"""
@@ -35,4 +35,9 @@ class CounterPresenter:
 
     def on_model_changed(self, new_value: int, action: str):
         """Обновляем UI при изменении данных в модели"""
+        # 1. Обновляем текстовое поле счетчика
         self.view.update_display(new_value)
+        
+        # 2. Управляем доступностью кнопки: активна, только если значение не 0
+        is_not_zero = (new_value != 0)
+        self.view.set_reset_button_enabled(is_not_zero)

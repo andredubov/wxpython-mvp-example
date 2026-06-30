@@ -19,27 +19,26 @@ class AppRouter:
     def start(self):
         """Открывает главное окно приложения"""
         if not self.main_view:
-            self.main_view = CounterView(None, title="Управление счетчиком")
+            self.main_view = CounterView(parent=None, title="Управление счетчиком")
             main_view_size = (450, 250)
             self.main_view.SetSize(main_view_size)
             self.main_view.SetMinSize(main_view_size)
             self.main_view.Center()
             # Передаем роутер в презентер, если главному окну нужно будет открыть лог
-            self.main_presenter = CounterPresenter(self.model, self.main_view, router=self)
+            self.main_presenter = CounterPresenter(model=self.model, view=self.main_view, router=self)
 
             # Перехватываем попытку закрытия главного окна (нажатие на крестик)
             self.main_view.Bind(wx.EVT_CLOSE, self._on_main_window_close_request)
 
         self.main_view.Show()
-        
-    
+
     def hide_splash_screen(self):
         hide_splash_screen()
 
     def show_log_window(self):
         """Открывает окно логов (или выводит на передний план, если открыто)"""
         if not self.log_view:
-            self.log_view = LogView(self.main_view, title="История изменений (Лог)")
+            self.log_view = LogView(parent=self.main_view, title="История изменений (Лог)")
             self.log_presenter = LogPresenter(self.model, self.log_view)
 
             # Позиционируем рядом с главным окном

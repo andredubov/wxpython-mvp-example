@@ -8,13 +8,16 @@ setlocal enabledelayedexpansion
 set "BUILD_DIR=.build"
 set "VENV_DIR=.venv"
 set "EXE_NAME=mvp-wxpython-app-windows-i386.exe"
-set "ICON_FILE_PATH=.\app\assets\icons\app-icon.ico"
-set "SPLASH_SCREEN_FILE_PATH=.\app\assets\images\logo.png"
+set "ICON_FILE_PATH=app\assets\icons\app-icon.ico"
+set "SPLASH_SCREEN_FILE_PATH=app\assets\images\logo.png"
 set "FILE_VERSION=1.0.0.0"
 set "PRODUCT_VERSION=1.0.0.0"
 set "COMPANY_NAME=UIMDB"
-set "PRODUCT_NAME=Plotter"
+set "PRODUCT_NAME=mvp-wxpython-example-app"
 set "PYTHON_CMD=py -3.7"
+:: Настройка путей к ресурсам проекта
+set "ASSETS_SRC=app\assets"
+set "ASSETS_DST=app\assets"   
 
 :menu
 cls
@@ -86,6 +89,7 @@ for /d /r . %%i in (__pycache__) do (
 )
 
 echo Удаление временных файлов...
+if exist "*.log" del /q *.log 2>nul
 if exist "*.spec" del /q *.spec 2>nul
 if exist ".dist" rmdir /s /q ".dist" 2>nul
 if exist ".build" rmdir /s /q ".build" 2>nul
@@ -239,6 +243,7 @@ set "NUITKA_CMD=!NUITKA_CMD! --include-package=wx"
 set "NUITKA_CMD=!NUITKA_CMD! --include-package-data=wx"
 set "NUITKA_CMD=!NUITKA_CMD! --noinclude-unittest-mode=nofollow"
 set "NUITKA_CMD=!NUITKA_CMD! --noinclude-setuptools-mode=nofollow"
+set "NUITKA_CMD=!NUITKA_CMD! --include-data-dir=!ASSETS_SRC!=!ASSETS_DST!"
 set "NUITKA_CMD=!NUITKA_CMD! --company-name=%COMPANY_NAME%"
 set "NUITKA_CMD=!NUITKA_CMD! --product-name=%PRODUCT_VERSION%"
 set "NUITKA_CMD=!NUITKA_CMD! --windows-file-version=%FILE_VERSION%"

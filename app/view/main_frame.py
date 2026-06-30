@@ -1,6 +1,7 @@
 import wx
 import os
 import logging
+import sys
 
 class CounterView(wx.Frame):
     def __init__(self, parent, title):
@@ -10,25 +11,25 @@ class CounterView(wx.Frame):
         self.presenter = None
         self.set_window_icon()
         self.init_ui()
-        
+
     def init_ui(self):
         panel = wx.Panel(self)
         vbox = wx.BoxSizer(wx.VERTICAL)
-        
+
         # Элементы интерфейса
         self.label = wx.StaticText(panel, label="0", style=wx.ST_NO_AUTORESIZE | wx.ALIGN_CENTER_HORIZONTAL)
         font = self.label.GetFont()
         font.SetPointSize(20)
         self.label.SetFont(font)
-        
+
         self.btn_inc = wx.Button(panel, label="+")
         self.btn_dec = wx.Button(panel, label="-")
         self.btn_reset = wx.Button(panel, label="Сброс")
         self.btn_show_log = wx.Button(panel, label="Показать историю")
-        
+
         # Компоновка
         vbox.Add(self.label, 1, wx.EXPAND | wx.TOP, 20)
-        
+
         hbox = wx.BoxSizer(wx.HORIZONTAL)
         hbox.Add(self.btn_dec, 1, wx.EXPAND | wx.ALL, 5)
         hbox.Add(self.btn_inc, 1, wx.EXPAND | wx.ALL, 5)
@@ -38,12 +39,23 @@ class CounterView(wx.Frame):
         vbox.Add(self.btn_show_log, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 5)
 
         panel.SetSizer(vbox)
-        
+
         # Привязка событий GUI к методам презентера
         self.btn_inc.Bind(wx.EVT_BUTTON, self.on_increment_click)
         self.btn_dec.Bind(wx.EVT_BUTTON, self.on_decrement_click)
         self.btn_reset.Bind(wx.EVT_BUTTON, self.on_reset_click)
         self.btn_show_log.Bind(wx.EVT_BUTTON, self.on_show_log_click)
+
+    def debug_paths(self):
+        """Выводит все возможные пути для отладки"""
+        self.logger.info(f"__file__: {__file__}")
+        self.logger.info(f"Is compiled by Nuitka: {bool(globals().get('__compiled__'))}")
+        self.logger.info(f"Current working dir: {os.getcwd()}")
+
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        project_root = os.path.dirname(current_dir)
+        icon_path = os.path.join(project_root, 'assets', 'icons', 'app_icon_16.png')
+        self.logger.info(f"Target icon path: {icon_path} - exists: {os.path.exists(icon_path)}")
 
     def set_window_icon(self):
         """Находит и устанавливает иконку приложения"""
@@ -51,8 +63,8 @@ class CounterView(wx.Frame):
             # Вычисляем путь к app/assets/icons/app-icon.png
             current_dir = os.path.dirname(os.path.abspath(__file__))
             project_root = os.path.dirname(current_dir) # папка app
-            icon_path = os.path.join(project_root, 'assets', 'icons', 'app-icon.png')
-            
+            icon_path = os.path.join(project_root, 'assets', 'icons', 'app_icon_16.png')
+
             if os.path.exists(icon_path):
                 # Создаем wx.Icon из PNG файла
                 icon = wx.Icon(icon_path, wx.BITMAP_TYPE_PNG)
@@ -63,6 +75,10 @@ class CounterView(wx.Frame):
 
     def set_presenter(self, presenter):
         self.presenter = presenter
+
+    def set_reset_button_enabled(self, enabled: bool):
+        """Включает или выключает кнопку 'Сброс' (вызывается из Презентера)"""
+        self.btn_reset.Enable(enabled)
 
     def update_display(self, value):
         """Метод для изменения текста на экране"""
@@ -95,10 +111,10 @@ class CounterView(wx.Frame):
             caption="Подтверждение выхода",
             style=wx.YES_NO | wx.NO_DEFAULT | wx.ICON_WARNING
         )
-        
+
         # Выводим диалог на экран (он блокирует остальной интерфейс)
         result = dialog.ShowModal()
         dialog.Destroy() # Обязательно освобождаем ресурсы диалога
-        
+
         # Если нажата кнопка "Да" (wx.ID_YES), возвращаем True
         return result == wx.ID_YES
