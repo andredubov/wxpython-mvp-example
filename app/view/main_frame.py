@@ -79,6 +79,10 @@ class CounterView(wx.Frame):
     def set_reset_button_enabled(self, enabled: bool):
         """Включает или выключает кнопку 'Сброс' (вызывается из Презентера)"""
         self.btn_reset.Enable(enabled)
+    
+    def set_decrement_button_enabled(self, enabled: bool):
+        """Включает или выключает кнопку '-' (вызывается из Презентера)"""
+        self.btn_dec.Enable(enabled)
 
     def update_display(self, value):
         """Метод для изменения текста на экране"""

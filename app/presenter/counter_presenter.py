@@ -37,7 +37,8 @@ class CounterPresenter:
         """Обновляем UI при изменении данных в модели"""
         # 1. Обновляем текстовое поле счетчика
         self.view.update_display(new_value)
-        
+
         # 2. Управляем доступностью кнопки: активна, только если значение не 0
         is_not_zero = (new_value != 0)
         self.view.set_reset_button_enabled(is_not_zero)
+        self.view.set_decrement_button_enabled(is_not_zero)

@@ -1,5 +1,4 @@
 import os
-import sys
 import json
 import logging
 
@@ -9,25 +8,10 @@ class CounterModel:
     Отвечает исключительно за хранение данных счетчика
     и выполнение математических операций над ними.
     """
-    def __init__(self):
+    def __init__(self, initial_value: int = 0):
         self.logger = logging.getLogger(__name__)
-        self._count = 0
+        self._count = initial_value
         self._listeners = []  # Список колбэков для уведомления
-
-        if globals().get('__compiled__'):
-            # Если приложение запущено из скомпилированного .exe,
-            # сохраняем config.json в той же папке на диске, где лежит сам файл .exe
-            executable_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
-            self._config_path = os.path.join(executable_dir, 'config.json')
-        else:
-            # При обычном запуске из исходников .py сохраняем в папку app/assets
-            current_dir = os.path.dirname(os.path.abspath(__file__))
-            project_root = os.path.dirname(current_dir) # папка app
-            self._config_path = os.path.join(project_root, 'assets', 'config.json')
-
-        self.logger.info(f"self._config_path: {self._config_path}")
-        # Загружаем сохраненное значение при старте
-        self.load_from_file()
 
     def subscribe(self, callback):
         """Регистрация презентера на обновления модели"""
@@ -49,14 +33,22 @@ class CounterModel:
         self._notify("увеличение (+1)")
 
     def decrement(self):
-        """Уменьшает значение счетчика на 1"""
-        self._count -= 1
-        self._notify("уменьшение (-1)")
+        if self._count > 0:
+            self._count -= 1
+            self._notify("уменьшение (-1)")
+        else:
+            self.logger.warning("Попытка уменьшить счетчик ниже нуля заблокирована.")
 
     def reset(self):
         """Сбрасывает значение счетчика на 0"""
         self._count = 0
         self._notify("сброс (0)")
+
+    def set_count(self, value: int):
+        if value < 0:
+            value = 0
+        self._count = value
+        self._notify(f"установка значения из ссылки ({value})")
 
     def get_count(self) -> int:
         """Возвращает текущее значение счетчика"""
@@ -79,10 +71,9 @@ class CounterModel:
         try:
             # Убедимся, что папка assets существует
             os.makedirs(os.path.dirname(self._config_path), exist_ok=True)
-            
+
             data = {"last_value": self._count}
             with open(self._config_path, 'w', encoding='utf-8') as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
         except Exception as e:
             self.logger.error(f"Ошибка при сохранении файла: {e}")
-            

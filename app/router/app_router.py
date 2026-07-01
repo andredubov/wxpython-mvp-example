@@ -9,8 +9,9 @@ class AppRouter:
     Сущность Навигации (Router).
     Отвечает за создание, открытие и координацию окон.
     """
-    def __init__(self, model):
+    def __init__(self, model, repository):
         self.model = model
+        self.repository = repository
         self.main_view = None
         self.main_presenter = None
         self.log_view = None
@@ -59,9 +60,11 @@ class AppRouter:
 
     def close_all(self):
         """Уничтожает все окна приложения и освобождает ресурсы"""
-        # Сохраняем данные в файл
-        if self.model:
-            self.model.save_to_file()
+        # Сохраняем данные через репозиторий, забирая текущее число из модели
+        if self.repository and self.model:
+            current_value = self.model.get_count()
+            self.repository.save_value(current_value)
+
         # Сначала отписываем и закрываем лог (если он открыт), чтобы избежать утечки памяти
         if self.log_presenter:
             self.log_presenter.detach()
