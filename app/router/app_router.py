@@ -83,8 +83,9 @@ class AppRouter:
             self.log_presenter.detach()
             self.log_presenter = None
 
-        self.log_view = None
-        event.Skip()
+        if self.log_view:
+            self.log_view.Destroy()
+            self.log_view = None
 
     def _on_main_window_close_request(self, event):
         """Вызывается при попытке закрыть главное окно"""
