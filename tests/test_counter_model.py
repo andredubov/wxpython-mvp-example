@@ -1,5 +1,5 @@
-# tests/test_counter_model.py
 import unittest
+import logging
 from app.model import CounterModel
 
 
@@ -9,6 +9,12 @@ class TestCounterModel(unittest.TestCase):
     def setUp(self):
         """Создаем новую модель перед каждым тестом"""
         self.model = CounterModel(initial_value=0)
+        # Отключаем логирование для тестов (опционально)
+        logging.disable(logging.CRITICAL)
+
+    def tearDown(self):
+        """Восстанавливаем логирование после тестов"""
+        logging.disable(logging.NOTSET)
 
     def test_initial_value(self):
         """Тест: проверяем начальное значение"""
