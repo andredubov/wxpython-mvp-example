@@ -33,6 +33,8 @@ env/
 *.log
 .DS_Store
 Thumbs.db
+.pytest_cache
+.test_reports
 
 # Исключаем динамический файл настроек и кэша данных
 app/assets/config.json
