@@ -1,8 +1,7 @@
-import os
-import json
 import logging
 
 from app.interface.model import CounterModelInterface
+
 
 class CounterModel(CounterModelInterface):
     """
@@ -55,27 +54,3 @@ class CounterModel(CounterModelInterface):
     def get_count(self) -> int:
         """Возвращает текущее значение счетчика"""
         return self._count
-
-    def load_from_file(self):
-        """Загружает значение счетчика из файла конфигурации"""
-        try:
-            if os.path.exists(self._config_path):
-                with open(self._config_path, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    self._count = data.get("last_value", 0)
-        except Exception as e:
-            # Если файл поврежден или недоступен, стартуем с нуля
-            self._count = 0
-            self.logger.error(f"Ошибка при загрузке значения счетчика из файла конфигурации: {e}")
-
-    def save_to_file(self):
-        """Сохраняет текущее значение счетчика в JSON-файл"""
-        try:
-            # Убедимся, что папка assets существует
-            os.makedirs(os.path.dirname(self._config_path), exist_ok=True)
-
-            data = {"last_value": self._count}
-            with open(self._config_path, 'w', encoding='utf-8') as f:
-                json.dump(data, f, indent=4, ensure_ascii=False)
-        except Exception as e:
-            self.logger.error(f"Ошибка при сохранении файла: {e}")
