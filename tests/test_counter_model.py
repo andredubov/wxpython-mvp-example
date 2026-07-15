@@ -76,41 +76,41 @@ class TestCounterModel(unittest.TestCase):
     def test_notify_with_correct_action(self):
         """Тест: проверяем, что уведомления отправляются с правильным описанием действия"""
         actions = []
-        
+
         def callback(value, action):
             actions.append(action)
-        
+
         self.model.subscribe(callback)
-        
+
         # Проверяем разные действия
         self.model.increment()
         self.assertEqual(actions[0], "увеличение (+1)")
-        
+
         self.model.decrement()
         self.assertEqual(actions[1], "уменьшение (-1)")
-        
+
         self.model.reset()
         self.assertEqual(actions[2], "сброс (0)")
-        
+
         self.model.set_count(42)
         self.assertEqual(actions[3], "установка значения из ссылки (42)")
 
     def test_subscribers_receive_notifications(self):
         """Тест: проверяем уведомления подписчиков"""
         notifications = []
-        
+
         def callback(value, action):
             notifications.append((value, action))
-        
+
         # Подписываемся
         self.model.subscribe(callback)
-        
+
         # Выполняем операции
         self.model.increment()          # (1, "увеличение (+1)")
         self.model.set_count(5)         # (5, "установка значения из ссылки (5)")
         self.model.decrement()          # (4, "уменьшение (-1)")
         self.model.reset()              # (0, "сброс (0)")
-        
+
         # Проверяем все уведомления
         expected = [
             (1, "увеличение (+1)"),
@@ -124,13 +124,13 @@ class TestCounterModel(unittest.TestCase):
         """Тест: проверяем, что несколько подписчиков получают уведомления"""
         calls1 = []
         calls2 = []
-        
+
         def callback1(value, action):
             calls1.append((value, action))
         
         def callback2(value, action):
             calls2.append((value, action))
-        
+
         # Подписываем обоих
         self.model.subscribe(callback1)
         self.model.subscribe(callback2)
