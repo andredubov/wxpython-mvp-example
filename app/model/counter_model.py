@@ -2,7 +2,9 @@ import os
 import json
 import logging
 
-class CounterModel:
+from app.interface.model import CounterModelInterface
+
+class CounterModel(CounterModelInterface):
     """
     Класс Модели.
     Отвечает исключительно за хранение данных счетчика
