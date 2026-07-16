@@ -1,8 +1,7 @@
 from typing import Any
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
-
-class CounterViewInterface(ABC):
+class CounterViewInterface():
     """Интерфейс представления счетчика"""
 
     @abstractmethod
@@ -33,41 +32,11 @@ class CounterViewInterface(ABC):
         """
         ...
 
-    @abstractmethod
-    def show(self) -> None:
-        """Показывает окно"""
-        ...
 
-    @abstractmethod
-    def Hide(self) -> None:
-        """Скрывает окно"""
-        ...
-
-    @abstractmethod
-    def Destroy(self) -> None:
-        """Уничтожает окно"""
-        ...
-
-
-class LogViewInterface(ABC):
+class LogViewInterface():
     """Интерфейс представления логов"""
 
     @abstractmethod
     def append_log(self, message: str) -> None:
         """Добавляет сообщение в лог"""
-        ...
-
-    @abstractmethod
-    def show(self) -> None:
-        """Показывает окно"""
-        ...
-
-    @abstractmethod
-    def Raise(self) -> None:
-        """Выводит окно на передний план"""
-        ...
-
-    @abstractmethod
-    def Destroy(self) -> None:
-        """Уничтожает окно"""
         ...

@@ -1,9 +1,12 @@
 import wx
 import os
 import logging
-import sys
 
-class CounterView(wx.Frame):
+from app.interface.view import CounterViewInterface
+from app.view.base_wx_view import WxViewMixin
+
+class CounterView(wx.Frame, CounterViewInterface, WxViewMixin):
+
     def __init__(self, parent, title):
         super().__init__(parent, title=title)
         self.logger = logging.getLogger(__name__)
@@ -76,33 +79,17 @@ class CounterView(wx.Frame):
     def set_presenter(self, presenter):
         self.presenter = presenter
 
-    def set_reset_button_enabled(self, enabled: bool):
-        """Включает или выключает кнопку 'Сброс' (вызывается из Презентера)"""
-        self.btn_reset.Enable(enabled)
-    
-    def set_decrement_button_enabled(self, enabled: bool):
-        """Включает или выключает кнопку '-' (вызывается из Презентера)"""
-        self.btn_dec.Enable(enabled)
-
     def update_display(self, value):
         """Метод для изменения текста на экране"""
         self.label.SetLabel(str(value))
 
-    def on_increment_click(self, event):
-        if self.presenter:
-            self.presenter.handle_increment()
+    def set_reset_button_enabled(self, enabled: bool):
+        """Включает или выключает кнопку 'Сброс' (вызывается из Презентера)"""
+        self.btn_reset.Enable(enabled)
 
-    def on_decrement_click(self, event):
-        if self.presenter:
-            self.presenter.handle_decrement()
-
-    def on_reset_click(self, event):
-        if self.presenter:
-            self.presenter.handle_reset()
-
-    def on_show_log_click(self, event):
-        if self.presenter:
-            self.presenter.handle_show_log()
+    def set_decrement_button_enabled(self, enabled: bool):
+        """Включает или выключает кнопку '-' (вызывается из Презентера)"""
+        self.btn_dec.Enable(enabled)
 
     def show_exit_confirmation(self) -> bool:
         """
@@ -122,3 +109,19 @@ class CounterView(wx.Frame):
 
         # Если нажата кнопка "Да" (wx.ID_YES), возвращаем True
         return result == wx.ID_YES
+
+    def on_increment_click(self, event):
+        if self.presenter:
+            self.presenter.handle_increment()
+
+    def on_decrement_click(self, event):
+        if self.presenter:
+            self.presenter.handle_decrement()
+
+    def on_reset_click(self, event):
+        if self.presenter:
+            self.presenter.handle_reset()
+
+    def on_show_log_click(self, event):
+        if self.presenter:
+            self.presenter.handle_show_log()

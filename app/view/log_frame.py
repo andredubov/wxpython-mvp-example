@@ -2,7 +2,11 @@ import wx
 import os
 import logging
 
-class LogView(wx.Frame):
+from app.interface.view import LogViewInterface
+from app.view.base_wx_view import WxViewMixin
+
+class LogView(wx.Frame, LogViewInterface, WxViewMixin):
+
     def __init__(self, parent, title):
         super().__init__(parent, title=title)
         self.logger = logging.getLogger(__name__)
