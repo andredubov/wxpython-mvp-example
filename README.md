@@ -148,7 +148,7 @@ wxpython-mvp-example/
 
    ```bash
    python -m venv .venv
-   .venv\Scripts\activate
+   .venv\Scripts\activate.bat
    ```
 
    > **Примечание:** Скрипт сборки `build.bat` автоматически создаёт виртуальное окружение `.venv`, поэтому этот шаг можно пропустить, если вы планируете использовать `build.bat`.
@@ -190,10 +190,17 @@ wxpython-mvp-example/
    source .venv/bin/activate
    ```
 
+   > **Примечание:** Если вы планируете использовать Makefile, виртуальное окружение будет создано автоматически при выполнении `make venv` или `make run`.
+
 3. Установите зависимости:
 
    ```bash
    pip install -r requirements/linux/requirements.txt
+   ```
+
+   Либо используйте Makefile:
+   ```bash
+   make venv
    ```
 
 4. Запустите приложение:
@@ -206,6 +213,16 @@ wxpython-mvp-example/
    ```bash
    make run
    ```
+
+#### Доступные команды Makefile:
+
+```bash
+make help   # Показать справку по всем командам
+make venv   # Создать виртуальное окружение и установить зависимости
+make run    # Запустить приложение (автоматически создаёт venv при необходимости)
+make test   # Запустить тесты
+make clean  # Очистить проект (удаляет .venv, .build, __pycache__, *.pyc, *.log)
+```
 
 ## Особенности, требующие внимания
 
