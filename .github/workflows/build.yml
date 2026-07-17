@@ -35,39 +35,39 @@ jobs:
       - name: Build with Nuitka (x86)
         if: matrix.arch == 'x86'
         run: |
-          python -m nuitka --mode=onefile ^
-            --windows-console-mode=disable ^
-            --assume-yes-for-downloads ^
-            --include-package=wx ^
-            --include-package-data=wx ^
-            --noinclude-unittest-mode=nofollow ^
-            --noinclude-setuptools-mode=nofollow ^
-            --include-data-dir=app/assets=app/assets ^
-            --company-name=UIMDB ^
-            --product-name=mvp-wxpython-example-app ^
-            --windows-file-version=1.0.0.0 ^
-            --windows-product-version=1.0.0.0 ^
-            --output-dir=.build ^
-            --output-filename=mvp-wxpython-app-windows-i386.exe ^
+          python -m nuitka --mode=onefile `
+            --windows-console-mode=disable `
+            --assume-yes-for-downloads `
+            --include-package=wx `
+            --include-package-data=wx `
+            --noinclude-unittest-mode=nofollow `
+            --noinclude-setuptools-mode=nofollow `
+            --include-data-dir=app/assets=app/assets `
+            --company-name=UIMDB `
+            --product-name=mvp-wxpython-example-app `
+            --windows-file-version=1.0.0.0 `
+            --windows-product-version=1.0.0.0 `
+            --output-dir=.build `
+            --output-filename=mvp-wxpython-app-windows-i386.exe `
             run.py
 
       - name: Build with Nuitka (x64)
         if: matrix.arch == 'x64'
         run: |
-          python -m nuitka --mode=onefile ^
-            --windows-console-mode=disable ^
-            --assume-yes-for-downloads ^
-            --include-package=wx ^
-            --include-package-data=wx ^
-            --noinclude-unittest-mode=nofollow ^
-            --noinclude-setuptools-mode=nofollow ^
-            --include-data-dir=app/assets=app/assets ^
-            --company-name=UIMDB ^
-            --product-name=mvp-wxpython-example-app ^
-            --windows-file-version=1.0.0.0 ^
-            --windows-product-version=1.0.0.0 ^
-            --output-dir=.build ^
-            --output-filename=mvp-wxpython-app-windows-x64.exe ^
+          python -m nuitka --mode=onefile `
+            --windows-console-mode=disable `
+            --assume-yes-for-downloads `
+            --include-package=wx `
+            --include-package-data=wx `
+            --noinclude-unittest-mode=nofollow `
+            --noinclude-setuptools-mode=nofollow `
+            --include-data-dir=app/assets=app/assets `
+            --company-name=UIMDB `
+            --product-name=mvp-wxpython-example-app `
+            --windows-file-version=1.0.0.0 `
+            --windows-product-version=1.0.0.0 `
+            --output-dir=.build `
+            --output-filename=mvp-wxpython-app-windows-x64.exe `
             run.py
 
       - name: Upload artifacts
