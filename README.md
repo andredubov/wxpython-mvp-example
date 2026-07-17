@@ -232,7 +232,19 @@ make clean  # Очистить проект (удаляет .venv, .build, __pyc
 
 ```python
 # Пример использования
-self.router.navigate_to("main")
+class CounterPresenter:
+    def __init__(self, model, view, router):
+        self.model = model
+        self.view = view
+        self.router = router  # переданный экземпляр AppRouter
+
+    def on_show_log(self):
+        # Открыть окно логов через роутер
+        self.router.show_log_window()
+
+    def on_exit(self):
+        # Закрыть все окна через роутер
+        self.router.close_all()
 ```
 
 ### 2. Разделение ответственности
