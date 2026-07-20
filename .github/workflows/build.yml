@@ -61,7 +61,7 @@ jobs:
             run.py
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: mvp-wxpython-${{ matrix.arch }}
           path: .build/mvp-wxpython-app-windows-${{ matrix.arch == 'x86' && 'i386' || 'x64' }}.exe
