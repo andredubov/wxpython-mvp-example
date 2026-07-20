@@ -14,16 +14,16 @@ jobs:
         arch: [x86, x64]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.arch == 'x86' && '3.7' || '3.11' }}
           architecture: ${{ matrix.arch == 'x86' && 'x86' || 'x64' }}
 
       - name: Cache pip packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~\AppData\Local\pip\Cache
           key: pip-${{ matrix.arch }}-${{ hashFiles('requirements/windows/${{ matrix.arch }}/requirements.txt') }}
@@ -61,7 +61,7 @@ jobs:
             run.py
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: mvp-wxpython-${{ matrix.arch }}
           path: .build/**/*.exe
@@ -72,7 +72,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           path: artifacts
 
@@ -82,7 +82,7 @@ jobs:
           find artifacts -name "*.exe" -type f
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: artifacts/**/*.exe
           generate_release_notes: true
