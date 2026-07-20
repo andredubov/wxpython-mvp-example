@@ -29,16 +29,22 @@ echo Выберите действие:
 echo   1 - Собрать исполняемый файл
 echo   2 - Запустить исполняемый файл
 echo   3 - Очистка проекта
-echo   4 - Выход
+echo   4 - Запустить тесты
+echo   5 - Выход
 echo.
-set /p choice="Введите номер действия (1-4): "
+set /p choice="Введите номер действия (1-5): "
 
 if "%choice%"=="1" goto build
 if "%choice%"=="2" goto run
 if "%choice%"=="3" goto clean
-if "%choice%"=="4" goto exit
-echo Неверный выбор! Пожалуйста, введите 1, 2, 3 или 4
+if "%choice%"=="4" goto run_tests
+if "%choice%"=="5" goto exit
+echo Неверный выбор! Пожалуйста, введите 1, 2, 3, 4 или 5
 pause
+goto menu
+
+:run_tests
+call :run_tests_only
 goto menu
 
 :build
@@ -296,6 +302,109 @@ if exist "%BUILD_DIR%\%EXE_NAME%" (
     )
 ) else (
     echo ВНИМАНИЕ: исполняемый файл не найден в папке %BUILD_DIR%!
+)
+
+pause
+exit /b 0
+
+:run_tests_only
+cls
+echo.
+echo ========================================
+echo    Запуск тестов
+echo ========================================
+
+call :check_py_launcher
+if errorlevel 1 (
+    echo Проверка py launcher не пройдена.
+    pause
+    exit /b 1
+)
+
+call :check_python
+if errorlevel 1 (
+    echo Проверка Python не пройдена.
+    pause
+    exit /b 1
+)
+
+if not exist "run.py" (
+    echo Ошибка: Файл run.py не найден!
+    pause
+    exit /b 1
+)
+
+if not exist "%VENV_DIR%" (
+    echo Виртуальное окружение не найдено. Создаю...
+    %PYTHON_CMD% -m venv "%VENV_DIR%"
+    if !errorlevel! neq 0 (
+        echo Ошибка создания виртуального окружения
+        pause
+        exit /b 1
+    )
+    echo Виртуальное окружение успешно создано
+) else (
+    echo Виртуальное окружение найдено
+)
+
+echo Активация виртуального окружения...
+call "%VENV_DIR%\Scripts\activate.bat"
+if !errorlevel! neq 0 (
+    echo Ошибка активации виртуального окружения
+    pause
+    exit /b 1
+)
+
+echo Проверка активации виртуального окружения...
+python -c "import sys; print('Python path:', sys.prefix)" | find "%VENV_DIR%" >nul
+if errorlevel 1 (
+    echo Ошибка: виртуальное окружение не активировано правильно
+    pause
+    exit /b 1
+)
+
+echo Обновление pip...
+python -m pip install --upgrade pip
+if !errorlevel! neq 0 (
+    echo Предупреждение: не удалось обновить pip, продолжение с текущей версией
+) else (
+    echo Pip успешно обновлен
+)
+
+if exist "./requirements/windows/x86/requirements.txt" (
+    echo Установка зависимостей из requirements.txt...
+    python -m pip install -r ./requirements/windows/x86/requirements.txt
+    if !errorlevel! neq 0 (
+        echo Ошибка установки зависимостей
+        pause
+        exit /b 1
+    )
+    echo Зависимости успешно установлены
+) else (
+    echo Файл ./requirements/windows/x86/requirements.txt не найден, пропускаю установку зависимостей
+)
+
+echo.
+echo ========================================
+echo    Запуск тестов
+echo ========================================
+python -m unittest discover tests -v
+if !errorlevel! neq 0 (
+    echo.
+    echo Ошибка: тесты не прошли!
+    pause
+    exit /b 1
+)
+echo.
+echo ✓ Все тесты успешно пройдены!
+echo.
+
+echo Деактивация виртуального окружения...
+call "%VENV_DIR%\Scripts\deactivate.bat"
+if !errorlevel! neq 0 (
+    echo Ошибка деактивации виртуального окружения
+    pause
+    exit /b 1
 )
 
 pause
