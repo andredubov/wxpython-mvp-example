@@ -57,6 +57,8 @@ jobs:
             --windows-file-version=1.0.0.0 `
             --windows-product-version=1.0.0.0 `
             --output-dir=.build `
+            --windows-icon-from-ico=app\assets\icons\app-icon.ico `
+            --onefile-windows-splash-screen-image=app\assets\images\logo.png `
             --output-filename=mvp-wxpython-app-windows-${{ matrix.arch == 'x86' && 'i386' || 'x64' }}.exe `
             run.py
 
