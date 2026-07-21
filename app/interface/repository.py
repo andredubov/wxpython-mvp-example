@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class RepositoryProtocol(ABC):
+class RepositoryInterface(ABC):
     """Интерфейс репозитория для работы с данными"""
 
     @abstractmethod

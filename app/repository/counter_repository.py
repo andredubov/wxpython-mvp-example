@@ -3,7 +3,9 @@ import sys
 import json
 import logging
 
-class CounterRepository:
+from app.interface.repository import RepositoryInterface
+
+class CounterRepository(RepositoryInterface):
     """
     Инфраструктурный слой (Repository).
     Отвечает исключительно за сохранение и загрузку данных с жесткого диска.
