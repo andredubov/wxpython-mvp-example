@@ -1,6 +1,7 @@
 import unittest
 import logging
 import os
+from unittest.mock import patch, mock_open
 
 from app.repository import CounterRepository
 
@@ -56,3 +57,28 @@ class TestCounterRepository(unittest.TestCase):
         self.assertTrue(os.path.exists(config_path))
         loaded_value = self.repository.load_value()
         self.assertEqual(loaded_value, test_value)
+
+    @patch('builtins.open')
+    @patch('app.repository.counter_repository.os.path.exists')
+    def test_load_value_handles_exception(self, mock_exists, mock_open):
+        """Тест обработки исключения при загрузке"""
+        mock_exists.return_value = True
+        mock_open.side_effect = Exception("Simulated file read error")
+        
+        value = self.repository.load_value()
+        self.assertEqual(value, 0)
+
+    @patch('app.repository.counter_repository.os.makedirs')
+    @patch('app.repository.counter_repository.open', create=True)
+    def test_save_value_handles_exception(self, mock_open, mock_makedirs):
+        """Тест обработки исключения при сохранении"""
+        mock_open.side_effect = Exception("Simulated file write error")
+        
+        # Проверяем, что исключение не выбрасывается наружу
+        try:
+            self.repository.save_value(42)
+        except Exception:
+            self.fail("save_value raised an exception unexpectedly")
+        
+        # Проверяем, что open был вызван (пытались записать)
+        mock_open.assert_called_once()
