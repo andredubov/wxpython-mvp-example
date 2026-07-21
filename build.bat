@@ -97,6 +97,7 @@ for /d /r . %%i in (__pycache__) do (
 echo Удаление временных файлов...
 if exist "*.log" del /q *.log 2>nul
 if exist "*.spec" del /q *.spec 2>nul
+if exist "*.coverage" del /q *.coverage 2>nul
 if exist ".dist" rmdir /s /q ".dist" 2>nul
 if exist ".build" rmdir /s /q ".build" 2>nul
 
