@@ -124,6 +124,7 @@ wxpython-mvp-example/
 │
 └── tests/                     # Тесты
     ├── test_counter_model.py  # Тесты модели счётчика
+    ├── test_counter_repository.py  # Тесты репозитория счётчика
     ├── fixtures/              # Тестовые данные
     └── mocks/                 # Заглушки для тестов
 ```
