@@ -74,6 +74,7 @@ wxpython-mvp-example/
 ├── build.bat                  # Сборка приложения (Windows)
 ├── Makefile                   # Сборка приложения (Linux)
 ├── README.md                  # Документация проекта
+├── LICENSE                    # Лицензия MIT
 │
 ├── app/                       # Основной код приложения
 │   ├── __init__.py
@@ -84,6 +85,14 @@ wxpython-mvp-example/
 │   │   ├── config.json        # Конфигурация приложения
 │   │   ├── icons/             # Иконки
 │   │   └── images/            # Изображения
+│   │
+│   ├── interface/             # Интерфейсы (контракты)
+│   │   ├── __init__.py
+│   │   ├── model.py           # Интерфейс модели
+│   │   ├── presenter.py       # Интерфейс презентера
+│   │   ├── repository.py      # Интерфейс репозитория
+│   │   ├── router.py          # Интерфейс маршрутизатора
+│   │   └── view.py            # Интерфейс представления
 │   │
 │   ├── locales/               # Локализация
 │   │   └── ru/                # Русский язык
@@ -125,8 +134,16 @@ wxpython-mvp-example/
 └── tests/                     # Тесты
     ├── test_counter_model.py  # Тесты модели счётчика
     ├── test_counter_repository.py  # Тесты репозитория счётчика
+    ├── test_counter_view.py   # Тесты представления счётчика
+    ├── test_counter_view_presenter.py # Тесты презентера счётчика
+    ├── test_router.py         # Тесты маршрутизатора
     ├── fixtures/              # Тестовые данные
+    │   └── __init__.py
     └── mocks/                 # Заглушки для тестов
+        ├── __init__.py
+        ├── mock_counter_repository.py
+        ├── mock_counter_view.py
+        └── mock_router.py
 ```
 
 ## Установка и запуск
