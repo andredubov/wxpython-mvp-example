@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class RouterInterface(ABC):
+class AppRouterInterface(ABC):
     """Интерфейс роутера для навигации"""
 
     @abstractmethod

@@ -5,3 +5,4 @@ from .counter_model import CounterModel
 __all__ = ['CounterModel']
 
 __version__ = "1.0.0"
+__author__ = "Andrei Dubov"

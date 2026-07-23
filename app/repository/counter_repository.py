@@ -3,14 +3,25 @@ import sys
 import json
 import logging
 
-from app.interface.repository import RepositoryInterface
+from app.interface.repository import CounterRepositoryInterface
 
-class CounterRepository(RepositoryInterface):
+
+class CounterRepository(CounterRepositoryInterface):
     """
-    Инфраструктурный слой (Repository).
-    Отвечает исключительно за сохранение и загрузку данных с жесткого диска.
+    Репозиторий для хранения значения счетчика в JSON-файле.
+
+    Реализует сохранение и загрузку числа в файл config.json.
+    Путь к файлу определяется автоматически в зависимости от
+    способа запуска (разработка или скомпилированный бинарник).
     """
+
     def __init__(self):
+        """
+        Инициализирует репозиторий и определяет путь к конфигурационному файлу.
+
+        При сборке в один исполняемый файл (Nuitka) использует директорию
+        запускаемого файла, иначе — папку assets в проекте.
+        """
         self.logger = logging.getLogger(__name__)
 
         # Надежное определение путей
@@ -25,7 +36,13 @@ class CounterRepository(RepositoryInterface):
         self.logger.info(f"Репозиторий инициализирован. Путь к конфигу: {self._config_path}")
 
     def load_value(self) -> int:
-        """Считывает сохраненное значение счетчика из файла"""
+        """
+        Загружает сохраненное значение счетчика из файла конфигурации.
+
+        Returns:
+            int: Загруженное значение или 0, если файл не существует
+                 или произошла ошибка при чтении.
+        """
         try:
             if os.path.exists(self._config_path):
                 with open(self._config_path, 'r', encoding='utf-8') as f:
@@ -36,7 +53,14 @@ class CounterRepository(RepositoryInterface):
         return 0
 
     def save_value(self, value: int):
-        """Записывает переданное значение счетчика в JSON-файл"""
+        """
+        Сохраняет значение счетчика в файл конфигурации.
+
+        Создает недостающие директории в пути к файлу, если они отсутствуют.
+
+        Args:
+            value (int): Значение счетчика для сохранения.
+        """
         try:
             dir_name = os.path.dirname(self._config_path)
             if dir_name:

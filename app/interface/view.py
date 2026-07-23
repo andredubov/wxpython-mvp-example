@@ -1,11 +1,13 @@
 from typing import Any
 from abc import abstractmethod
+from .presenter import CounterViewPresenterInterface
+
 
 class CounterViewInterface():
     """Интерфейс представления счетчика"""
 
     @abstractmethod
-    def set_presenter(self, presenter: Any) -> None:
+    def set_presenter(self, presenter: CounterViewPresenterInterface) -> None:
         """Устанавливает ссылку на презентер"""
         ...
 
@@ -29,6 +31,42 @@ class CounterViewInterface():
         """
         Показывает диалог подтверждения выхода
         Returns: True если пользователь подтвердил выход
+        """
+        ...
+
+    @abstractmethod
+    def on_increment_click(self, event):
+        """
+        Обрабатывает событие клика на кнопку увеличения счетчика.
+        Args:
+            event: событие нажатия кнопки, переданное фреймворком
+        """
+        ...
+
+    @abstractmethod
+    def on_decrement_click(self, event):
+        """
+        Обрабатывает событие клика на кнопку уменьшения счетчика.
+        Args:
+            event: событие нажатия кнопки, переданное фреймворком
+        """
+        ...
+
+    @abstractmethod
+    def on_reset_click(self, event):
+        """
+        Обрабатывает событие клика на кнопку сброса счетчика.
+        Args:
+            event: событие нажатия кнопки, переданное фреймворком
+        """
+        ...
+
+    @abstractmethod
+    def on_show_log_click(self, event):
+        """
+        Обрабатывает событие клика на кнопку отображения истории изменений.
+        Args:
+            event: событие нажатия кнопки, переданное фреймворком
         """
         ...
 

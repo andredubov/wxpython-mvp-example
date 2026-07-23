@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 
-
-class CounterPresenterInterface(ABC):
+class CounterViewPresenterInterface(ABC):
     """Интерфейс презентера счетчика"""
 
     @abstractmethod
@@ -35,7 +34,7 @@ class CounterPresenterInterface(ABC):
         ...
 
 
-class LogPresenterInterface(ABC):
+class LogViewPresenterInterface(ABC):
     """Интерфейс презентера логов"""
 
     @abstractmethod

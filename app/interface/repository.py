@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class RepositoryInterface(ABC):
+class CounterRepositoryInterface(ABC):
     """Интерфейс репозитория для работы с данными"""
 
     @abstractmethod

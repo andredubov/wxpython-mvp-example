@@ -1,5 +1,27 @@
-class CounterPresenter:
-    def __init__(self, model, view, router):
+from app.interface import AppRouterInterface
+from app.interface import CounterViewInterface
+from app.interface import CounterModelInterface
+from app.interface import CounterViewPresenterInterface
+
+
+class CounterViewPresenter(CounterViewPresenterInterface):
+    """
+    Презентер для управления счетчиком.
+
+    Реализует бизнес-логику приложения, связывая модель данных
+    с представлением. Обрабатывает команды пользователя и обновляет
+    интерфейс при изменении состояния модели.
+    """
+
+    def __init__(self, model: CounterModelInterface, view: CounterViewInterface, router: AppRouterInterface):
+        """
+        Инициализирует презентер.
+
+        Args:
+            model: Модель данных счетчика.
+            view: Представление (главное окно).
+            router: Маршрутизатор для навигации между окнами.
+        """
         self.model = model
         self.view = view
         self.router = router
@@ -13,28 +35,48 @@ class CounterPresenter:
         self.on_model_changed(new_value=self.model.get_count(), action=None)
 
     def handle_increment(self):
-        """Вызывается при нажатии кнопки '+' в интерфейсе"""
+        """
+        Обрабатывает запрос на увеличение счетчика.
+
+        Вызывается при клике на кнопку "+".
+        """
         self.model.increment()
 
     def handle_decrement(self):
-        """Вызывается при нажатии кнопки '-' в интерфейсе"""
+        """
+        Обрабатывает запрос на уменьшение счетчика.
+
+        Вызывается при клике на кнопку "-".
+        """
         self.model.decrement()
-    
+
     def handle_reset(self):
-        """Вызывается при нажатии кнопки Сброс в интерфейсе"""
+        """
+        Обрабатывает запрос на сброс счетчика.
+
+        Вызывается при клике на кнопку "Сброс".
+        """
         self.model.reset()
 
     def handle_show_log(self):
-        """Презентер не создает окно сам, он просит об этом Роутер"""
+        """
+        Обрабатывает запрос на открытие окна логов.
+
+        Вызывается при клике на кнопку "Показать историю".
+        """
         self.router.show_log_window()
 
     def handle_exit_request(self):
-        """Проверяет подтверждение выхода и инициирует закрытие через роутер"""
+        """
+        Обрабатывает запрос на выход из приложения.
+
+        Показывает диалог подтверждения выхода. При согласии пользователя
+        закрывает все окна через маршрутизатор.
+        """
         if self.view.show_exit_confirmation():
             self.router.close_all()
 
     def on_model_changed(self, new_value: int, action: str):
-        """Обновляем UI при изменении данных в модели"""
         # 1. Обновляем текстовое поле счетчика
         self.view.update_display(new_value)
 

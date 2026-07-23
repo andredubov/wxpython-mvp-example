@@ -1,8 +1,12 @@
-# Из конкретного файла импортируем класс презентора
-from .counter_presenter import CounterPresenter
-from .log_presenter import LogPresenter
+# Из конкретного файла импортируем класс
+from .counter_presenter import CounterViewPresenter
+from .log_presenter import LogViewPresenter
 
 # Явно указываем, какие классы экспонируются наружу из этого пакета
-__all__ = ['CounterPresenter','LogPresenter']
+__all__ = [
+    'CounterViewPresenter',
+    'LogViewPresenter',
+    ]
 
 __version__ = "1.0.0"
+__author__ = "Andrei Dubov"

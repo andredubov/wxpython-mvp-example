@@ -3,11 +3,25 @@ import os
 import logging
 
 from app.interface.view import CounterViewInterface
+from app.interface.presenter import CounterViewPresenterInterface
 from app.view.base_wx_view import WxViewMixin
 
 class CounterView(wx.Frame, CounterViewInterface, WxViewMixin):
+    """
+    Главное окно приложения для управления счетчиком.
 
-    def __init__(self, parent, title):
+    Наследует wx.Frame для создания GUI, CounterViewInterface для
+    контракта представления и WxViewMixin для вспомогательных методов.
+    """
+
+    def __init__(self, parent: wx.Window, title: str):
+        """
+        Инициализирует главное окно приложения.
+
+        Args:
+            parent: родительское окно (wx.Window).
+            title: заголовок окна (str).
+        """
         super().__init__(parent, title=title)
         self.logger = logging.getLogger(__name__)
         # Ссылка на презентер (будет установлена извне)
@@ -16,6 +30,10 @@ class CounterView(wx.Frame, CounterViewInterface, WxViewMixin):
         self.init_ui()
 
     def init_ui(self):
+        """
+        Инициализирует пользовательский интерфейс главного окна.
+        Создает все виджеты и устанавливает их компоновку.
+        """
         panel = wx.Panel(self)
         vbox = wx.BoxSizer(wx.VERTICAL)
 
@@ -50,7 +68,10 @@ class CounterView(wx.Frame, CounterViewInterface, WxViewMixin):
         self.btn_show_log.Bind(wx.EVT_BUTTON, self.on_show_log_click)
 
     def debug_paths(self):
-        """Выводит все возможные пути для отладки"""
+        """
+        Выводит в лог информацию о путях для отладки.
+        Полезно при поиске проблем с загрузкой ресурсов.
+        """
         self.logger.info(f"__file__: {__file__}")
         self.logger.info(f"Is compiled by Nuitka: {bool(globals().get('__compiled__'))}")
         self.logger.info(f"Current working dir: {os.getcwd()}")
@@ -61,7 +82,11 @@ class CounterView(wx.Frame, CounterViewInterface, WxViewMixin):
         self.logger.info(f"Target icon path: {icon_path} - exists: {os.path.exists(icon_path)}")
 
     def set_window_icon(self):
-        """Находит и устанавливает иконку приложения"""
+        """
+        Находит и устанавливает иконку окна приложения.
+        Иконка загружается из файла app/assets/icons/app_icon_16.png.
+        В случае ошибки продолжает работу со стандартной иконкой.
+        """
         try:
             # Вычисляем путь к app/assets/icons/app-icon.png
             current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -76,19 +101,36 @@ class CounterView(wx.Frame, CounterViewInterface, WxViewMixin):
             # Если иконка не загрузилась, приложение продолжит работу со стандартной иконкой ОС
             self.logger.error(f"Не удалось загрузить иконку: {e}")
 
-    def set_presenter(self, presenter):
+    def set_presenter(self, presenter: CounterViewPresenterInterface):
+        """
+        Устанавливает ссылку на презентер для обработки событий.
+        Args:
+            presenter: экземпляр презентера счетчика
+        """
         self.presenter = presenter
 
     def update_display(self, value):
-        """Метод для изменения текста на экране"""
+        """
+        Обновляет отображение значения счетчика.
+        Args:
+            value: новое значение для отображения
+        """
         self.label.SetLabel(str(value))
 
     def set_reset_button_enabled(self, enabled: bool):
-        """Включает или выключает кнопку 'Сброс' (вызывается из Презентера)"""
+        """
+        Включает или выключает кнопку сброса.
+        Args:
+            enabled: True для включения, False для отключения
+        """
         self.btn_reset.Enable(enabled)
 
     def set_decrement_button_enabled(self, enabled: bool):
-        """Включает или выключает кнопку '-' (вызывается из Презентера)"""
+        """
+        Включает или выключает кнопку уменьшения.
+        Args:
+            enabled: True для включения, False для отключения
+        """
         self.btn_dec.Enable(enabled)
 
     def show_exit_confirmation(self) -> bool:
@@ -111,17 +153,37 @@ class CounterView(wx.Frame, CounterViewInterface, WxViewMixin):
         return result == wx.ID_YES
 
     def on_increment_click(self, event):
+        """
+        Обрабатывает событие клика на кнопку увеличения.
+        Args:
+            event: событие клика
+        """
         if self.presenter:
             self.presenter.handle_increment()
 
     def on_decrement_click(self, event):
+        """
+        Обрабатывает событие клика на кнопку уменьшения.
+        Args:
+            event: событие клика
+        """
         if self.presenter:
             self.presenter.handle_decrement()
 
     def on_reset_click(self, event):
+        """
+        Обрабатывает событие клика на кнопку сброса.
+        Args:
+            event: событие клика
+        """
         if self.presenter:
             self.presenter.handle_reset()
 
     def on_show_log_click(self, event):
+        """
+        Обрабатывает событие клика на кнопку показа истории изменений.
+        Args:
+            event: событие клика
+        """
         if self.presenter:
             self.presenter.handle_show_log()
