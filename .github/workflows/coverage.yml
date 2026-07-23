@@ -20,13 +20,9 @@ jobs:
     
     - name: Install dependencies
       run: |
-        apt install python3-wxgtk4.0
         python -m pip install --upgrade pip
-        pip install coverage
-        # wxPython is not needed for running tests in CI (GUI not required)
-        # Install only test dependencies if there is a separate test-requirements file
+        pip install coverage wxPython
         if [ -f requirements/linux/requirements.txt ]; then 
-          # Skip wxPython installation for CI to avoid GTK+ dependencies
           pip install -r requirements/linux/requirements.txt || true
         fi
     
