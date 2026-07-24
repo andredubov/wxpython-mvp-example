@@ -1,4 +1,4 @@
-from app import MyApplication
+from app.application import MyApplication
 
 def main():
     # 1. Инициализируем приложение wxPython c графическим пользовательским интерфейсом
