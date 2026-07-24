@@ -81,6 +81,39 @@ class CounterView(wx.Frame, CounterViewInterface, WxViewMixin):
         icon_path = os.path.join(project_root, 'assets', 'icons', 'app_icon_16.png')
         self.logger.info(f"Target icon path: {icon_path} - exists: {os.path.exists(icon_path)}")
 
+    def set_size(self, size):
+        super().SetSize(size)
+
+    def center(self):
+        super().Center()
+
+    def bind_close(self, handler):
+        super().Bind(wx.EVT_CLOSE, handler)
+
+    def destroy(self):
+        super().Destroy()
+
+    def set_size(self, size: tuple) -> None:
+        super().SetSize(size)
+
+    def set_min_size(self, size: tuple) -> None:
+        super().SetMinSize(size)
+
+    def center(self) -> None:
+        super().Center()
+
+    def show(self) -> None:
+        super().Show()
+
+    def raise_on_top(self) -> None:
+        super().Raise()
+
+    def get_position(self) -> tuple:
+        return super().GetPosition()
+
+    def get_size(self) -> tuple:
+        return super().GetSize()
+
     def set_window_icon(self):
         """
         Находит и устанавливает иконку окна приложения.

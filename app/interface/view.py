@@ -1,80 +1,96 @@
-from typing import Any
 from abc import abstractmethod
 from .presenter import CounterViewPresenterInterface
+from .presenter import LogViewPresenterInterface
+from .window import WindowInterface
 
 
-class CounterViewInterface():
-    """Интерфейс представления счетчика"""
+class CounterViewInterface(WindowInterface):
+    """
+    Интерфейс представления счетчика.
+
+    Расширяет базовый WindowInterface методами,
+    специфичными для управления счетчиком.
+    """
 
     @abstractmethod
     def set_presenter(self, presenter: CounterViewPresenterInterface) -> None:
-        """Устанавливает ссылку на презентер"""
+        """
+        Устанавливает ссылку на презентер.
+
+        Args:
+            presenter: Экземпляр презентера для обработки событий.
+        """
         ...
 
     @abstractmethod
     def update_display(self, value: int) -> None:
-        """Обновляет отображение значения счетчика"""
+        """
+        Обновляет отображение значения счетчика.
+
+        Args:
+            value: Новое значение для отображения.
+        """
         ...
 
     @abstractmethod
     def set_reset_button_enabled(self, enabled: bool) -> None:
-        """Включает/выключает кнопку сброса"""
+        """
+        Включает/выключает кнопку сброса.
+
+        Args:
+            enabled: True для включения, False для отключения.
+        """
         ...
 
     @abstractmethod
     def set_decrement_button_enabled(self, enabled: bool) -> None:
-        """Включает/выключает кнопку уменьшения"""
+        """
+        Включает/выключает кнопку уменьшения.
+
+        Args:
+            enabled: True для включения, False для отключения.
+        """
         ...
 
     @abstractmethod
     def show_exit_confirmation(self) -> bool:
         """
-        Показывает диалог подтверждения выхода
-        Returns: True если пользователь подтвердил выход
+        Показывает диалог подтверждения выхода.
+
+        Returns:
+            bool: True если пользователь подтвердил выход.
         """
         ...
+
+
+class LogViewInterface(WindowInterface):
+    """
+    Интерфейс представления логов.
+
+    Расширяет базовый WindowInterface методами для управления логами.
+    """
 
     @abstractmethod
-    def on_increment_click(self, event):
+    def set_presenter(self, presenter: LogViewPresenterInterface) -> None:
         """
-        Обрабатывает событие клика на кнопку увеличения счетчика.
+        Устанавливает ссылку на презентер.
+
         Args:
-            event: событие нажатия кнопки, переданное фреймворком
+            presenter: Экземпляр презентера для обработки событий.
         """
         ...
-
-    @abstractmethod
-    def on_decrement_click(self, event):
-        """
-        Обрабатывает событие клика на кнопку уменьшения счетчика.
-        Args:
-            event: событие нажатия кнопки, переданное фреймворком
-        """
-        ...
-
-    @abstractmethod
-    def on_reset_click(self, event):
-        """
-        Обрабатывает событие клика на кнопку сброса счетчика.
-        Args:
-            event: событие нажатия кнопки, переданное фреймворком
-        """
-        ...
-
-    @abstractmethod
-    def on_show_log_click(self, event):
-        """
-        Обрабатывает событие клика на кнопку отображения истории изменений.
-        Args:
-            event: событие нажатия кнопки, переданное фреймворком
-        """
-        ...
-
-
-class LogViewInterface():
-    """Интерфейс представления логов"""
 
     @abstractmethod
     def append_log(self, message: str) -> None:
-        """Добавляет сообщение в лог"""
+        """
+        Добавляет сообщение в лог.
+
+        Args:
+            message: Сообщение для добавления.
+        """
+        ...
+
+    @abstractmethod
+    def clear_log(self) -> None:
+        """Очищает лог."""
         ...
