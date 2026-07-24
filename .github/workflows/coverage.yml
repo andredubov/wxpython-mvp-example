@@ -28,8 +28,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install coverage wxPython
-        if [ -f requirements/linux/requirements.txt ]; then 
+        pip install coverage
+        if [ -f requirements/linux/requirements.txt ]; then
           pip install -r requirements/linux/requirements.txt || true
         fi
     
