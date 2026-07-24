@@ -4,15 +4,17 @@ import logging
 from app.router import AppRouter
 from app.model import CounterModel
 from tests.mocks import MockCounterRepository
+from tests.mocks import MockWindowFactory
 
 class TestRouter(unittest.TestCase):
     """Тесты для представления счетчика"""
 
     def setUp(self):
         """Создаем новую модель перед каждым тестом"""
+        self.window_factory = MockWindowFactory()
         self.counter_model = CounterModel()
         self.counter_repository = MockCounterRepository()
-        self.router = AppRouter(model=self.counter_model, repository=self.counter_repository)
+        self.router = AppRouter(model=self.counter_model, repository=self.counter_repository, window_factory=self.window_factory)
         # Отключаем логирование для тестов (опционально)
         logging.disable(logging.CRITICAL)
 
