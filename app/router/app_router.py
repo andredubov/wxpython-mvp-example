@@ -1,7 +1,8 @@
 from app.presenter import CounterViewPresenter, LogViewPresenter
 from app.interface import CounterRepositoryInterface, CounterModelInterface
+from app.interface import CounterViewInterface, CounterViewPresenterInterface
+from app.interface import LogViewInterface, LogViewPresenterInterface
 from app.interface import AppRouterInterface, WindowFactoryInterface
-from app.factory import DefaultWindowFactory
 from app.utils import hide_splash_screen
 
 
@@ -15,7 +16,7 @@ class AppRouter(AppRouterInterface):
     - Управление закрытием окон с сохранением данных.
     """
 
-    def __init__(self, model: CounterModelInterface, repository: CounterRepositoryInterface, window_factory: WindowFactoryInterface = None):
+    def __init__(self, model: CounterModelInterface, repository: CounterRepositoryInterface, window_factory: WindowFactoryInterface):
         """
         Инициализирует маршрутизатор.
 
@@ -25,13 +26,13 @@ class AppRouter(AppRouterInterface):
             window_factory: Фабрика для создания окон. Если не указана,
                            используется DefaultWindowFactory.
         """
-        self.model = model
-        self.repository = repository
-        self.window_factory = window_factory or DefaultWindowFactory()
-        self.main_view = None
-        self.main_view_presenter = None
-        self.log_view = None
-        self.log_view_presenter = None
+        self.model: CounterModelInterface = model
+        self.repository: CounterRepositoryInterface = repository
+        self.window_factory: WindowFactoryInterface = window_factory
+        self.main_view: CounterViewInterface = None
+        self.main_view_presenter: CounterViewPresenterInterface = None
+        self.log_view: LogViewInterface = None
+        self.log_view_presenter: LogViewPresenterInterface = None
 
     def start(self):
         """

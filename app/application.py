@@ -6,6 +6,7 @@ from app.utils import ensure_hdpi
 from app.router import AppRouter
 from app.model import CounterModel
 from app.repository import CounterRepository
+from app.factory import DefaultWindowFactory
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -47,8 +48,10 @@ class MyApplication(wx.App):
             # 4. Создаем модель с загруженным значением
             self.model = CounterModel(initial_value=initial_value)
 
+            self.window_factory = DefaultWindowFactory()
+
             # 5. Создаем роутер и запускаем приложение
-            self.router = AppRouter(model=self.model, repository=self.repository)
+            self.router = AppRouter(model=self.model, repository=self.repository, window_factory=self.window_factory)
             self.router.start()
 
             # 6. Если есть сплэш-скрин - скрываем его

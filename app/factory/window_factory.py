@@ -5,6 +5,7 @@
 """
 
 from app.interface import WindowFactoryInterface
+from app.interface import CounterViewInterface, LogViewInterface
 from app.view import CounterView, LogView
 
 
@@ -15,7 +16,7 @@ class DefaultWindowFactory(WindowFactoryInterface):
     Используется в основном приложении для создания GUI-компонентов.
     """
 
-    def create_counter_view(self, parent, title: str) -> CounterView:
+    def create_counter_view(self, parent, title: str) -> CounterViewInterface:
         """
         Создает главное окно приложения.
 
@@ -28,7 +29,7 @@ class DefaultWindowFactory(WindowFactoryInterface):
         """
         return CounterView(parent=parent, title=title)
 
-    def create_log_view(self, parent, title: str) -> LogView:
+    def create_log_view(self, parent, title: str) -> LogViewInterface:
         """
         Создает окно логов.
 
