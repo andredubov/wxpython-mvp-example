@@ -90,11 +90,17 @@ wxpython-mvp-example/
 │   │
 │   ├── interface/             # Интерфейсы (контракты)
 │   │   ├── __init__.py
+│   │   ├── factory.py         # Интерфейс фабрики окон
 │   │   ├── model.py           # Интерфейс модели
 │   │   ├── presenter.py       # Интерфейс презентера
 │   │   ├── repository.py      # Интерфейс репозитория
 │   │   ├── router.py          # Интерфейс маршрутизатора
-│   │   └── view.py            # Интерфейс представления
+│   │   ├── view.py            # Интерфейс представления
+│   │   └── window.py          # Интерфейс окна
+│   │
+│   ├── factory/               # Фабрики
+│   │   ├── __init__.py
+│   │   └── window_factory.py  # Фабрика окон
 │   │
 │   ├── locales/               # Локализация
 │   │   └── ru/                # Русский язык
@@ -136,8 +142,8 @@ wxpython-mvp-example/
 └── tests/                     # Тесты
     ├── test_counter_model.py  # Тесты модели счётчика
     ├── test_counter_repository.py  # Тесты репозитория счётчика
-    ├── test_counter_view.py   # Тесты представления счётчика
     ├── test_counter_view_presenter.py # Тесты презентера счётчика
+    ├── test_log_view_presenter.py # Тесты презентера лога
     ├── test_router.py         # Тесты маршрутизатора
     ├── fixtures/              # Тестовые данные
     │   └── __init__.py
@@ -145,7 +151,9 @@ wxpython-mvp-example/
         ├── __init__.py
         ├── mock_counter_repository.py
         ├── mock_counter_view.py
-        └── mock_router.py
+        ├── mock_log_view.py
+        ├── mock_router.py
+        └── mock_window_factory.py
 ```
 
 ## Установка и запуск
