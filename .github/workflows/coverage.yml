@@ -51,7 +51,7 @@ jobs:
           const badge = `![Coverage](https://img.shields.io/badge/coverage-${coverage}%25-${color})`;
           const readmePath = 'README.md';
           let readme = fs.readFileSync(readmePath, 'utf8');
-          readme = readme.replace(/<!-- coverage-badge -->/, badge);
+          readme = readme.replace(/!\[Coverage\]\(https:\/\/img\.shields\.io\/badge\/coverage-\d+%25-[a-z]+\)/, badge);
           fs.writeFileSync(readmePath, readme);
 
     - name: Commit and push if changed
