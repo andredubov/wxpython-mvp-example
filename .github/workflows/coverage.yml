@@ -60,7 +60,11 @@ jobs:
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add README.md
-        git diff --staged --quiet || git commit -m "chore: update coverage badge [skip ci]"
-        git push
+        if ! git diff --staged --quiet; then
+          git commit -m "chore: update coverage badge [skip ci]"
+          git push
+        else
+          echo "No changes to commit"
+        fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
