@@ -35,5 +35,25 @@ class TestRouter(unittest.TestCase):
         self.assertIsNone(self.router.main_view)
         self.assertIsNone(self.router.main_view_presenter)
         self.assertIsNone(self.router.log_view)
-        self.assertIsNone(self.router.log_view_presenter)    
+        self.assertIsNone(self.router.log_view_presenter)
+
+    def test_show_log_window_creates_log_view(self):
+        """
+        Проверяет, что метод show_log_window создает окно логов.
+        """
+        # Проверяем, что изначально лог не создан
+        self.assertIsNone(self.router.log_view)
+        self.assertIsNone(self.router.log_view_presenter)
+
+        # Создаем главное окно, чтобы можно было открыть лог
+        self.router.start()
+        self.assertIsNotNone(self.router.main_view)
+
+        # Открываем окно логов
+        self.router.show_log_window()
+
+        # Проверяем, что окно логов и презентер созданы
+        self.assertIsNotNone(self.router.log_view)
+        self.assertIsNotNone(self.router.log_view_presenter)
+    
         
