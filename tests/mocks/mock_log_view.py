@@ -7,6 +7,8 @@ class MockLogView(LogViewInterface):
         super().__init__()
         self.log_messages = []
         self.presenter: LogViewPresenterInterface = None
+        # Флаг, указывающий, было ли окно отображено (по умолчанию False)
+        self.view_showed: bool = False
 
     def set_presenter(self, presenter: LogViewPresenterInterface):
         """
@@ -28,3 +30,7 @@ class MockLogView(LogViewInterface):
     def clear_log(self) -> None:
         """Очищает лог."""
         self.log_messages.clear()
+
+    def show(self) -> None:
+        """Отображает окно."""
+        self.view_showed = True

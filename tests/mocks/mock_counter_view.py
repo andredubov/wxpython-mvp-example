@@ -31,6 +31,8 @@ class MockCounterView(CounterViewInterface):
         self.exit_confirmation_shown: bool = False
         # Возвращаемое значение для show_exit_confirmation (по умолчанию True)
         self.exit_confirmation_return: bool = True
+        # Флаг, указывающий, было ли окно отображено (по умолчанию False)
+        self.view_showed: bool = False
 
         self.presenter: CounterViewPresenterInterface = None
         self._position = Point(100, 100)
@@ -83,6 +85,10 @@ class MockCounterView(CounterViewInterface):
             Size: объект с шириной и высотой
         """
         return self._size
+
+    def show(self) -> None:
+        """Отображает окно."""
+        self.view_showed = True
 
     def show_exit_confirmation(self) -> bool:
         """
