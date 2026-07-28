@@ -1,6 +1,18 @@
 from app.interface import CounterViewInterface
 from app.interface import CounterViewPresenterInterface
 
+class Point:
+    """Простая структура для координат."""
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y
+
+class Size:
+    """Простая структура для размера."""
+    def __init__(self, width=800, height=600):
+        self.width = width
+        self.height = height
+
 class MockCounterView(CounterViewInterface):
     """
     Мок-объект для представления счетчика, используемый в тестах.
@@ -21,6 +33,8 @@ class MockCounterView(CounterViewInterface):
         self.exit_confirmation_return: bool = True
 
         self.presenter: CounterViewPresenterInterface = None
+        self._position = Point(100, 100)
+        self._size = Size(450, 250)
 
     def set_presenter(self, presenter: CounterViewPresenterInterface):
         """
@@ -53,6 +67,22 @@ class MockCounterView(CounterViewInterface):
             enabled: True для включения, False для отключения
         """
         self.decrement_button_enabled = enabled
+
+    def get_position(self):
+        """
+        Возвращает позицию окна.
+        Returns:
+            Point: объект с координатами x и y
+        """
+        return self._position
+
+    def get_size(self):
+        """
+        Возвращает размер окна.
+        Returns:
+            Size: объект с шириной и высотой
+        """
+        return self._size
 
     def show_exit_confirmation(self) -> bool:
         """
