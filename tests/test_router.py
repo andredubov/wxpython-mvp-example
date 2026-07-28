@@ -55,5 +55,23 @@ class TestRouter(unittest.TestCase):
         # Проверяем, что окно логов и презентер созданы
         self.assertIsNotNone(self.router.log_view)
         self.assertIsNotNone(self.router.log_view_presenter)
+
+    def test_start_creates_main_view(self):
+        """
+        Проверяет, что метод start создает главное окно и презентер.
+        """
+        # Проверяем, что изначально главное окно не создано
+        self.assertIsNone(self.router.main_view)
+        self.assertIsNone(self.router.main_view_presenter)
+
+        # Вызываем start
+        self.router.start()
+
+        # Проверяем, что главное окно и презентер созданы
+        self.assertIsNotNone(self.router.main_view)
+        self.assertIsNotNone(self.router.main_view_presenter)
+
+        # Проверяем, что окно показано (через флаг view_showed)
+        self.assertTrue(self.router.main_view.view_showed)
     
         
