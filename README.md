@@ -1,6 +1,6 @@
 # wxPython MVP Example
 
-![Coverage](https://img.shields.io/badge/coverage-88%25-brightgreen)
+![Coverage](https://img.shields.io/badge/coverage-91%25-brightgreen)
 
 Демонстрационное приложение на Python с использованием библиотеки **wxPython** и архитектурного паттерна **MVP (Model-View-Presenter)**. Проект создан как пример чистой архитектуры и разделения ответственности в настольных приложениях.
 
